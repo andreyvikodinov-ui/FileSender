@@ -3,213 +3,422 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Обмен файлами через localtunnel</title>
+    <title>Обмен файлами</title>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: #f4f7fb;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
+            padding: 20px;
         }
         .container {
-            max-width: 700px;
+            max-width: 800px;
             width: 100%;
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
         }
         h1 {
-            font-size: 24px;
-            margin-top: 0;
-            color: #1a2b3c;
+            font-size: 28px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            color: #1a2b3c;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #5a6b7c;
+            font-size: 14px;
+            margin-bottom: 24px;
+            border-left: 4px solid #0066cc;
+            padding-left: 16px;
         }
         .server-settings {
             background: #eef2f6;
-            padding: 12px 15px;
-            border-radius: 12px;
+            padding: 14px 18px;
+            border-radius: 16px;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
+            border: 1px solid #dde3ec;
         }
         .server-settings label {
             font-weight: 600;
             font-size: 14px;
             color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .server-settings input {
             flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 10px 14px;
+            border: 1px solid #ccd4de;
+            border-radius: 10px;
             font-size: 14px;
+            background: white;
             min-width: 200px;
+            transition: 0.2s;
+        }
+        .server-settings input:focus {
+            border-color: #0066cc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.2);
         }
         .server-settings button {
             background: #2c3e50;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
         }
         .server-settings button:hover {
             background: #1a2b3c;
+            transform: scale(1.02);
         }
         .block {
-            background: #f8faff;
-            border: 1px solid #e0e6ed;
-            border-radius: 14px;
-            padding: 18px 20px;
+            background: white;
+            border-radius: 18px;
+            padding: 20px 24px;
             margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #e8ecf2;
+            transition: 0.2s;
+        }
+        .block:hover {
+            border-color: #c0ccdd;
         }
         .block h3 {
-            margin: 0 0 12px 0;
             font-size: 18px;
             color: #1a2b3c;
+            margin: 0 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .block .row {
+        .block h3 i {
+            color: #0066cc;
+            width: 24px;
+            text-align: center;
+        }
+        .row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
-        .block input, .block button {
-            padding: 10px 14px;
-            border-radius: 8px;
+        .row input, .row button {
+            padding: 10px 16px;
+            border-radius: 10px;
             border: 1px solid #ccd4de;
             font-size: 14px;
+            background: white;
+            transition: 0.2s;
         }
-        .block button {
+        .row input:focus {
+            border-color: #0066cc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.15);
+        }
+        .row button {
             background: #0066cc;
             color: white;
             border: none;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .block button:hover {
+        .row button:hover {
             background: #004d99;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,102,204,0.3);
         }
-        .block button.secondary {
+        .row button.secondary {
             background: #6c7a8d;
         }
-        .block button.secondary:hover {
+        .row button.secondary:hover {
             background: #4a5a6e;
         }
-        .block .result {
-            margin-top: 12px;
-            background: #f0f4fa;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-family: monospace;
+        .result {
+            margin-top: 14px;
+            background: #f4f8fe;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-family: 'Consolas', monospace;
             font-size: 14px;
             word-break: break-all;
             white-space: pre-wrap;
             color: #1a2b3c;
+            border-left: 4px solid #0066cc;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .result.error {
+            border-left-color: #c62828;
+            background: #fff5f5;
+        }
+        .result.success {
+            border-left-color: #2e7d32;
+            background: #f0f8f0;
         }
         .file-list {
             list-style: none;
             padding: 0;
-            margin: 8px 0 0 0;
+            margin: 6px 0 0 0;
+            width: 100%;
         }
         .file-list li {
             background: white;
-            padding: 6px 12px;
+            padding: 8px 14px;
             margin: 4px 0;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 1px solid #dde3ec;
             font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .status-msg {
-            color: #2e7d32;
-            font-weight: 500;
+        .file-list li i {
+            color: #0066cc;
+            margin-right: 8px;
         }
-        .error-msg {
-            color: #c62828;
-            font-weight: 500;
+        .instruction {
+            background: #f0f4fa;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-top: 20px;
+            border: 1px solid #dde3ec;
         }
-        hr {
-            border: none;
-            border-top: 1px solid #dde3ec;
-            margin: 20px 0;
+        .instruction h3 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a2b3c;
+        }
+        .instruction ol {
+            padding-left: 24px;
+            margin: 8px 0;
+        }
+        .instruction ol li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .instruction .note {
+            background: #fff9e6;
+            border-left: 4px solid #f5a623;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 14px;
         }
         .footer {
             text-align: center;
             font-size: 13px;
             color: #6c7a8d;
-            margin-top: 10px;
+            margin-top: 24px;
+            border-top: 1px solid #e8ecf2;
+            padding-top: 20px;
+        }
+        /* Модальное окно для localtunnel */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 28px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal h2 {
+            margin: 0 0 12px 0;
+            color: #1a2b3c;
+        }
+        .modal p {
+            color: #3a4b5c;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .modal .btn-primary {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal .btn-primary:hover {
+            background: #004d99;
+            transform: scale(1.02);
+        }
+        .modal .btn-secondary {
+            background: #e0e6ed;
+            color: #1a2b3c;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-left: 10px;
+        }
+        .modal .btn-secondary:hover {
+            background: #ccd4de;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        /* адаптив */
+        @media (max-width: 600px) {
+            .container { padding: 16px; }
+            .block { padding: 16px; }
+            .row { flex-direction: column; align-items: stretch; }
+            .row input, .row button { width: 100%; }
+            .server-settings { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>📦 Файлообменник</h1>
+    <h1><i class="fas fa-cloud-upload-alt" style="color:#0066cc;"></i> Файлообменник</h1>
+    <div class="subtitle">
+        <i class="fas fa-share-alt"></i> Обменивайтесь файлами через интернет с помощью кода
+    </div>
 
     <!-- Настройка сервера -->
     <div class="server-settings">
-        <label for="baseUrlInput">Сервер:</label>
+        <label for="baseUrlInput"><i class="fas fa-server"></i> Сервер:</label>
         <input type="text" id="baseUrlInput" value="https://weak-years-sleep.loca.lt" />
-        <button id="saveServerBtn">Сохранить</button>
-        <span style="font-size:13px;color:#555;">(запоминается в браузере)</span>
+        <button id="saveServerBtn"><i class="fas fa-save"></i> Сохранить</button>
+        <span style="font-size:13px;color:#555;margin-left:auto;">(адрес запоминается)</span>
     </div>
 
-    <!-- Блок 1: создание кода -->
+    <!-- Блок 1: создать код -->
     <div class="block">
-        <h3>1️⃣ Создать код</h3>
+        <h3><i class="fas fa-key"></i> 1. Создать код</h3>
         <div class="row">
-            <button id="createCodeBtn">Создать новый код</button>
+            <button id="createCodeBtn"><i class="fas fa-plus-circle"></i> Создать новый код</button>
         </div>
         <div id="createResult" class="result">Нажмите кнопку, чтобы получить код.</div>
     </div>
 
-    <!-- Блок 2: загрузка файла -->
+    <!-- Блок 2: загрузить файл -->
     <div class="block">
-        <h3>2️⃣ Загрузить файл по коду</h3>
+        <h3><i class="fas fa-upload"></i> 2. Загрузить файл</h3>
         <div class="row">
             <input type="text" id="uploadCodeInput" placeholder="Код" style="flex:1; min-width:100px;" />
             <input type="file" id="fileInput" style="flex:2; min-width:150px;" />
-            <button id="uploadBtn">Загрузить</button>
+            <button id="uploadBtn"><i class="fas fa-arrow-up"></i> Загрузить</button>
         </div>
         <div id="uploadResult" class="result">Ожидание загрузки...</div>
     </div>
 
     <!-- Блок 3: список файлов -->
     <div class="block">
-        <h3>3️⃣ Список файлов по коду</h3>
+        <h3><i class="fas fa-list"></i> 3. Список файлов по коду</h3>
         <div class="row">
             <input type="text" id="listCodeInput" placeholder="Код" style="flex:1;" />
-            <button id="listBtn">Показать файлы</button>
+            <button id="listBtn"><i class="fas fa-search"></i> Показать</button>
         </div>
         <div id="listResult" class="result">
             <ul class="file-list" id="fileListContainer"></ul>
         </div>
     </div>
 
-    <!-- Блок 4: скачивание -->
+    <!-- Блок 4: скачать файл -->
     <div class="block">
-        <h3>4️⃣ Скачать файл</h3>
+        <h3><i class="fas fa-download"></i> 4. Скачать файл</h3>
         <div class="row">
             <input type="text" id="downloadCodeInput" placeholder="Код" style="flex:1;" />
             <input type="text" id="downloadFilenameInput" placeholder="Имя файла" style="flex:1;" />
-            <button id="downloadBtn">Скачать</button>
+            <button id="downloadBtn"><i class="fas fa-arrow-down"></i> Скачать</button>
         </div>
         <div id="downloadResult" class="result">Введите код и имя файла, затем нажмите «Скачать».</div>
     </div>
 
-    <hr />
+    <!-- Инструкция -->
+    <div class="instruction">
+        <h3><i class="fas fa-question-circle" style="color:#0066cc;"></i> Инструкция</h3>
+        <ol>
+            <li><strong>Создайте код</strong> — нажмите «Создать новый код». Запомните или скопируйте полученный 6-значный код.</li>
+            <li><strong>Загрузите файл</strong> — введите код, выберите файл на устройстве и нажмите «Загрузить».</li>
+            <li><strong>Передайте код</strong> — отправьте код получателю любым удобным способом.</li>
+            <li><strong>Получатель скачивает</strong> — вводит код в поле «Список файлов», видит список, затем вводит код и имя файла в поле «Скачать» и нажимает кнопку.</li>
+        </ol>
+        <div class="note">
+            <i class="fas fa-info-circle" style="color:#f5a623;"></i>
+            <strong>Внимание:</strong> При первом посещении сервиса может появиться страница подтверждения от localtunnel. 
+            Нажмите кнопку «Подтвердить IP» ниже, введите IP-адрес, показанный на странице, и нажмите «Continue». 
+            После этого вы сможете пользоваться сервисом без ограничений в течение 7 дней.
+        </div>
+    </div>
+
     <div class="footer">
-        🔒 Без шифрования, но для семьи – безопасно.<br />
+        <i class="fas fa-shield-alt"></i> Без шифрования, но для семьи – безопасно.<br />
         Сервер должен быть включён и туннель активен.
+    </div>
+</div>
+
+<!-- Модальное окно для localtunnel -->
+<div class="modal-overlay" id="localtunnelModal">
+    <div class="modal">
+        <h2><i class="fas fa-exclamation-triangle" style="color:#f5a623;"></i> Требуется подтверждение</h2>
+        <p>
+            Сервис localtunnel просит подтвердить ваш IP-адрес для предотвращения злоупотреблений.<br><br>
+            <strong>Что сделать:</strong><br>
+            1. Нажмите кнопку «Перейти на страницу подтверждения».<br>
+            2. На открывшейся странице введите IP-адрес, который там указан, и нажмите «Continue».<br>
+            3. Закройте вкладку и вернитесь сюда, затем нажмите «Повторить запрос».
+        </p>
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+            <button class="btn-primary" id="openLocaltunnelBtn"><i class="fas fa-external-link-alt"></i> Перейти на страницу подтверждения</button>
+            <button class="btn-secondary" id="retryRequestBtn"><i class="fas fa-redo"></i> Повторить запрос</button>
+        </div>
+        <p style="margin-top:16px; font-size:13px; color:#6c7a8d;">
+            <i class="fas fa-clock"></i> После подтверждения страница не будет показываться 7 дней.
+        </p>
     </div>
 </div>
 
@@ -217,64 +426,115 @@
     // ---------- Настройки ----------
     const STORAGE_KEY = 'fileShareBaseUrl';
     let baseUrl = localStorage.getItem(STORAGE_KEY) || 'https://weak-years-sleep.loca.lt';
+    let pendingRequest = null; // для повторного запроса после модалки
 
     const baseUrlInput = document.getElementById('baseUrlInput');
     const saveServerBtn = document.getElementById('saveServerBtn');
-
-    // Установить значение в поле ввода
     baseUrlInput.value = baseUrl;
 
-    // Функция обновления BASE_URL
     function updateBaseUrl() {
         const newUrl = baseUrlInput.value.trim();
         if (newUrl) {
             baseUrl = newUrl;
             localStorage.setItem(STORAGE_KEY, baseUrl);
-            showStatus('createResult', 'Сервер сохранён: ' + baseUrl, 'status-msg');
+            showStatus('createResult', 'Сервер сохранён: ' + baseUrl, 'success');
         } else {
-            showStatus('createResult', 'Введите корректный адрес', 'error-msg');
+            showStatus('createResult', 'Введите корректный адрес', 'error');
         }
     }
-
     saveServerBtn.addEventListener('click', updateBaseUrl);
 
     // ---------- Вспомогательные функции ----------
     function showStatus(elementId, message, className = '') {
         const el = document.getElementById(elementId);
         el.innerHTML = message;
-        el.className = 'result ' + (className || '');
+        el.className = 'result ' + className;
     }
 
-    // Функция для выполнения запросов с обязательными заголовками
+    // Показ модального окна localtunnel
+    function showLocaltunnelModal() {
+        document.getElementById('localtunnelModal').classList.add('active');
+    }
+    function hideLocaltunnelModal() {
+        document.getElementById('localtunnelModal').classList.remove('active');
+    }
+
+    // Открыть localtunnel в новой вкладке
+    document.getElementById('openLocaltunnelBtn').addEventListener('click', () => {
+        window.open(baseUrl, '_blank');
+    });
+
+    // Повторить запрос после модалки
+    document.getElementById('retryRequestBtn').addEventListener('click', () => {
+        hideLocaltunnelModal();
+        if (pendingRequest) {
+            pendingRequest();
+            pendingRequest = null;
+        }
+    });
+
+    // ---------- API запрос с обработкой localtunnel ----------
     async function apiRequest(endpoint, options = {}) {
         const url = baseUrl + endpoint;
         const headers = options.headers || {};
-        // Добавляем два заголовка для обхода предупреждения localtunnel
         headers['abypass-tunnel-reminder'] = 'true';
-        headers['User-Agent'] = 'MyFileSharer/1.0'; // нестандартный User-Agent
-        // Если передаётся FormData, не ставим Content-Type, браузер сам добавит правильный
+        headers['User-Agent'] = 'MyFileSharer/1.0';
         const isFormData = options.body instanceof FormData;
         if (!isFormData && !headers['Content-Type']) {
             headers['Content-Type'] = 'application/json';
         }
-        const fetchOptions = {
-            ...options,
-            headers: headers
-        };
-        const response = await fetch(url, fetchOptions);
-        if (!response.ok) {
+        const fetchOptions = { ...options, headers };
+
+        try {
+            const response = await fetch(url, fetchOptions);
+            const contentType = response.headers.get('content-type') || '';
+
+            // Если ответ не OK, пытаемся прочитать текст ошибки
+            if (!response.ok) {
+                const text = await response.text();
+                // Проверяем, не является ли это страницей localtunnel
+                if (text.includes('IP Address') || text.includes('localtunnel')) {
+                    showLocaltunnelModal();
+                    // Сохраняем функцию повторного запроса
+                    pendingRequest = () => apiRequest(endpoint, options).then(res => {
+                        // после успеха обновим интерфейс, но этот вызов вернёт результат
+                    }).catch(err => console.warn('Retry failed:', err));
+                    throw new Error('localtunnel_verification_needed');
+                }
+                throw new Error(`Ошибка ${response.status}: ${text}`);
+            }
+
+            // Если ответ OK, но это HTML (localtunnel может вернуть HTML даже с 200)
             const text = await response.text();
-            throw new Error(`Ошибка ${response.status}: ${text}`);
-        }
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            return await response.json();
-        } else {
-            return await response.text();
+            if (contentType.includes('text/html')) {
+                if (text.includes('IP Address') || text.includes('localtunnel')) {
+                    showLocaltunnelModal();
+                    pendingRequest = () => apiRequest(endpoint, options).then(res => {
+                        // Повтор
+                    }).catch(err => console.warn('Retry failed:', err));
+                    throw new Error('localtunnel_verification_needed');
+                }
+                // Иначе просто возвращаем текст
+                return text;
+            }
+
+            // Если JSON
+            if (contentType.includes('application/json')) {
+                return JSON.parse(text);
+            }
+
+            // Иначе возвращаем текст
+            return text;
+        } catch (error) {
+            if (error.message === 'localtunnel_verification_needed') {
+                // уже обработано
+                throw error;
+            }
+            throw error;
         }
     }
 
-    // Функция для скачивания файла с обходом предупреждения
+    // Функция для скачивания с заголовками
     async function downloadFileWithHeader(code, filename) {
         const url = baseUrl + `/download/${code}/${encodeURIComponent(filename)}`;
         const response = await fetch(url, {
@@ -284,7 +544,13 @@
             }
         });
         if (!response.ok) {
-            throw new Error(`Ошибка ${response.status}: ${await response.text()}`);
+            const text = await response.text();
+            if (text.includes('IP Address') || text.includes('localtunnel')) {
+                showLocaltunnelModal();
+                pendingRequest = () => downloadFileWithHeader(code, filename);
+                throw new Error('localtunnel_verification_needed');
+            }
+            throw new Error(`Ошибка ${response.status}: ${text}`);
         }
         const blob = await response.blob();
         const link = document.createElement('a');
@@ -296,49 +562,54 @@
         URL.revokeObjectURL(link.href);
     }
 
-    // ---------- 1. Создание кода ----------
+    // ---------- Обработчики ----------
+
+    // 1. Создание кода
     document.getElementById('createCodeBtn').addEventListener('click', async () => {
         try {
             const data = await apiRequest('/create');
-            showStatus('createResult', `✅ Код создан: <strong>${data.code}</strong>`, 'status-msg');
+            showStatus('createResult', `✅ Код создан: <strong>${data.code}</strong>`, 'success');
         } catch (err) {
-            showStatus('createResult', `❌ Ошибка: ${err.message}`, 'error-msg');
+            if (err.message !== 'localtunnel_verification_needed') {
+                showStatus('createResult', `❌ Ошибка: ${err.message}`, 'error');
+            }
         }
     });
 
-    // ---------- 2. Загрузка файла ----------
+    // 2. Загрузка файла
     document.getElementById('uploadBtn').addEventListener('click', async () => {
         const code = document.getElementById('uploadCodeInput').value.trim();
         const fileInput = document.getElementById('fileInput');
         if (!code) {
-            showStatus('uploadResult', '❌ Введите код', 'error-msg');
+            showStatus('uploadResult', '❌ Введите код', 'error');
             return;
         }
         if (!fileInput.files.length) {
-            showStatus('uploadResult', '❌ Выберите файл', 'error-msg');
+            showStatus('uploadResult', '❌ Выберите файл', 'error');
             return;
         }
         const file = fileInput.files[0];
         const formData = new FormData();
         formData.append('file', file);
-
         try {
             const data = await apiRequest(`/upload/${code}`, {
                 method: 'POST',
                 body: formData
             });
-            showStatus('uploadResult', `✅ Файл "${data.filename}" загружен успешно!`, 'status-msg');
+            showStatus('uploadResult', `✅ Файл "${data.filename}" загружен успешно!`, 'success');
             fileInput.value = '';
         } catch (err) {
-            showStatus('uploadResult', `❌ Ошибка загрузки: ${err.message}`, 'error-msg');
+            if (err.message !== 'localtunnel_verification_needed') {
+                showStatus('uploadResult', `❌ Ошибка загрузки: ${err.message}`, 'error');
+            }
         }
     });
 
-    // ---------- 3. Список файлов ----------
+    // 3. Список файлов
     document.getElementById('listBtn').addEventListener('click', async () => {
         const code = document.getElementById('listCodeInput').value.trim();
         if (!code) {
-            showStatus('listResult', '❌ Введите код', 'error-msg');
+            showStatus('listResult', '❌ Введите код', 'error');
             return;
         }
         try {
@@ -348,39 +619,43 @@
             if (data.files && data.files.length > 0) {
                 data.files.forEach(fname => {
                     const li = document.createElement('li');
-                    li.textContent = fname;
+                    li.innerHTML = `<i class="fas fa-file"></i> ${fname}`;
                     listContainer.appendChild(li);
                 });
-                showStatus('listResult', '', '');
+                showStatus('listResult', '', 'success');
             } else {
                 showStatus('listResult', '📂 Файлов нет', '');
                 listContainer.innerHTML = '';
             }
         } catch (err) {
-            showStatus('listResult', `❌ Ошибка: ${err.message}`, 'error-msg');
+            if (err.message !== 'localtunnel_verification_needed') {
+                showStatus('listResult', `❌ Ошибка: ${err.message}`, 'error');
+            }
         }
     });
 
-    // ---------- 4. Скачивание файла ----------
+    // 4. Скачивание файла
     document.getElementById('downloadBtn').addEventListener('click', async () => {
         const code = document.getElementById('downloadCodeInput').value.trim();
         const filename = document.getElementById('downloadFilenameInput').value.trim();
         if (!code || !filename) {
-            showStatus('downloadResult', '❌ Введите код и имя файла', 'error-msg');
+            showStatus('downloadResult', '❌ Введите код и имя файла', 'error');
             return;
         }
         try {
             await downloadFileWithHeader(code, filename);
-            showStatus('downloadResult', `🔽 Скачивание начато: ${filename}`, 'status-msg');
+            showStatus('downloadResult', `🔽 Скачивание начато: ${filename}`, 'success');
         } catch (err) {
-            showStatus('downloadResult', `❌ Ошибка скачивания: ${err.message}`, 'error-msg');
+            if (err.message !== 'localtunnel_verification_needed') {
+                showStatus('downloadResult', `❌ Ошибка скачивания: ${err.message}`, 'error');
+            }
         }
     });
 
     // Инициализация статусов
     showStatus('createResult', 'Нажмите кнопку, чтобы получить код.', '');
     showStatus('uploadResult', 'Ожидание загрузки...', '');
-    showStatus('listResult', 'Введите код и нажмите "Показать файлы".', '');
+    showStatus('listResult', 'Введите код и нажмите "Показать".', '');
     showStatus('downloadResult', 'Введите код и имя файла, затем нажмите «Скачать».', '');
 </script>
 </body>
