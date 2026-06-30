@@ -158,7 +158,7 @@
     <!-- Настройка сервера -->
     <div class="server-settings">
         <label for="baseUrlInput">Сервер:</label>
-        <input type="text" id="baseUrlInput" value="http://AndreyVikodinov-53032.portmap.host:53032" />
+        <input type="text" id="baseUrlInput" value="https://weak-years-sleep.loca.lt" />
         <button id="saveServerBtn">Сохранить</button>
         <span style="font-size:13px;color:#555;">(запоминается в браузере)</span>
     </div>
@@ -216,7 +216,7 @@
 <script>
     // ---------- Настройки ----------
     const STORAGE_KEY = 'fileShareBaseUrl';
-    let baseUrl = localStorage.getItem(STORAGE_KEY) || 'http://AndreyVikodinov-53032.portmap.host:53032';
+    let baseUrl = localStorage.getItem(STORAGE_KEY) || 'https://weak-years-sleep.loca.lt';
 
     const baseUrlInput = document.getElementById('baseUrlInput');
     const saveServerBtn = document.getElementById('saveServerBtn');
